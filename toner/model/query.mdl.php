@@ -1,9 +1,7 @@
 <?php
 
-class Query {
-    private string $movementType;
+class Replenishment {
     private string $date;
-    private string $printerModel;
     private string $cartridgeType;
     private string $cyanQty;
     private string $magentaQty;
@@ -11,18 +9,14 @@ class Query {
     private string $blackQty;
 
     public function __construct (
-        $movementType,
         $date, 
-        $printerModel, 
         $cartridgeType, 
         $cyanQty, 
         $magentaQty, 
         $yellowQty, 
         $blackQty
     ) {
-        $this->movementType = $movementType;
         $this->date = $date;
-        $this->printerModel = $printerModel;
         $this->cartridgeType = $cartridgeType;
         $this->cyanQty = $cyanQty;
         $this->magentaQty = $magentaQty;
@@ -30,9 +24,9 @@ class Query {
         $this->blackQty = $blackQty;
     }
 
-    public function setQuery() {
+    public function setReplenishment() {
         require_once 'pdo-connect.php';
-        $sql = "INSERT INTO transactions (date, transaction_type, printer_model, cartridge_model, cyan, magenta, yellow, black) VALUES ('{$this->date}', '{$this->movementType}', '{$this->printerModel}', '{$this->cartridgeType}', '{$this->cyanQty}', '{$this->magentaQty}', '{$this->yellowQty}', '{$this->blackQty}')";
+        $sql = "INSERT INTO replenishment (date, cartridge_model, cyan, magenta, yellow, black) VALUES ('{$this->date}', '{$this->cartridgeType}', '{$this->cyanQty}', '{$this->magentaQty}', '{$this->yellowQty}', '{$this->blackQty}')";
 
         try {        
             if ($pdo) {
@@ -43,6 +37,6 @@ class Query {
             $statement = $e->getMessage();
         }
 
-        return $this->movementType;
+        return $result;
     }
 }

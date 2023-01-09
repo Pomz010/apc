@@ -2,9 +2,7 @@
 
 require_once "./model/query.mdl.php";
     class Transaction {
-        private string $movementType;
         private string $date;
-        private string $printerModel;
         private string $cartridgeType;
         private string $cyanQty;
         private string $magentaQty;
@@ -12,18 +10,14 @@ require_once "./model/query.mdl.php";
         private string $blackQty;
 
         public function __construct(
-            $movementType,
             $date, 
-            $printerModel, 
             $cartridgeType, 
             $cyanQty, 
             $magentaQty, 
             $yellowQty, 
             $blackQty
         ) {
-            $this->movementType = $movementType;
             $this->date = $date;
-            $this->printerModel = $printerModel;
             $this->cartridgeType = $cartridgeType;
             $this->cyanQty = $cyanQty;
             $this->magentaQty = $magentaQty;
@@ -32,10 +26,8 @@ require_once "./model/query.mdl.php";
         }
 
         public function setTransaction() {
-            $inbound = new Query(
-                $this->movementType,
+            $inbound = new Replenishment(
                 $this->date,
-                $this->printerModel,
                 $this->cartridgeType,
                 $this->cyanQty,
                 $this->magentaQty,
@@ -43,6 +35,6 @@ require_once "./model/query.mdl.php";
                 $this->blackQty
             );
 
-            return $inbound->setQuery();
+            return $inbound->setReplenishment();
         }
     }
