@@ -1,7 +1,8 @@
 <?php
 include "./includes/autoload.inc.php";
 require_once "./includes/header.inc.php";
-require_once "./control/transaction.ctrl.php";
+require_once "./control/inbound.ctrl.php";
+require_once "./control/outbound.ctrl.php";
 ?>
 
 <!-- Header Nav -->
@@ -99,20 +100,6 @@ require_once "./control/transaction.ctrl.php";
             <div class="modal-body px-5">
                 <form class="mt-3" action="<?php $_SERVER["PHP_SELF"]; ?>" method="POST">
 
-                    <!-- <div class="d-flex justify-content-between">
-                        <p>Transaction Type:</p>
-                        <div class="d-flex justify-content-between w-50">
-                            <div class="mb-2">
-                                <input type="radio" id="inbound" name="movement_type" value="inbound" checked>
-                                <label for="inbound">Inbound</label>
-                            </div>
-                            <div class="mb-2">
-                                <input type="radio" id="outbound" name="movement_type" value="outbound">
-                                <label for="outbound">Outbound</label>
-                            </div>
-                        </div>
-                    </div> -->
-
                     <div class="mb-2 d-flex justify-content-between">
                         <label for="date">Date:</label>
                         <input class="w-50" type="date" id="date" name="date">
@@ -120,20 +107,7 @@ require_once "./control/transaction.ctrl.php";
 
                     <div class="mb-2 d-flex justify-content-between">
                         <label for="printer_model">Destination: </label>
-                        <!-- <input class="w-50" type="text" id="printer_model" name="printer_model"> -->
-                        <select class="w-50" name="printer_model" id="printer_model">
-                            <option value="HP M280NW">HP M280NW</option>
-                            <option value="CANON MF244">CANON MF244</option>
-                            <option value="HP M274N">HP M274N</option>
-                            <option value="HP M15A">HP M15A</option>
-                            <option value="HP 130FN">HP 130FN</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="printer_model">Printer Model: </label>
-                        <!-- <input class="w-50" type="text" id="printer_model" name="printer_model"> -->
-                        <select class="w-50" name="printer_model" id="printer_model">
+                        <select class="w-50" name="destination" id="destination">
                             <option value="HP M280NW">HP M280NW</option>
                             <option value="CANON MF244">CANON MF244</option>
                             <option value="HP M274N">HP M274N</option>
@@ -144,7 +118,6 @@ require_once "./control/transaction.ctrl.php";
 
                     <div class="mb-2 d-flex justify-content-between">
                         <label for="cartridge">Cartridge Type: </label>
-                        <!-- <input class="w-50" type="text" id="cartridge" name="cartridge_type"> -->
                         <select class="w-50" name="cartridge_type" id="cartridge_type">
                             <option value="CF500A Series">CF500A Series</option>
                             <option value="CANON 337">CANON 337</option>
@@ -176,8 +149,7 @@ require_once "./control/transaction.ctrl.php";
 
                     <div class="mb-2 d-flex justify-content-between">
                         <label for="printer_model">Requester: </label>
-                        <!-- <input class="w-50" type="text" id="printer_model" name="printer_model"> -->
-                        <select class="w-50" name="printer_model" id="printer_model">
+                        <select class="w-50" name="requester" id="requester">
                             <option value="HP M280NW">HP M280NW</option>
                             <option value="CANON MF244">CANON MF244</option>
                             <option value="HP M274N">HP M274N</option>
@@ -188,14 +160,13 @@ require_once "./control/transaction.ctrl.php";
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" name="submit" class="btn btn-primary">SUBMIT</button>
+                        <button type="submit" name="TonerDistribution" class="btn btn-primary">SUBMIT</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- Current Stock Table -->
 <div class="container my-3">
@@ -260,7 +231,7 @@ require_once "./control/transaction.ctrl.php";
         $yellow_qty = $_POST['yellow_qty'];
         $black_qty = $_POST['black_qty'];
 
-        $inbound = new Transaction(
+        $inbound = new Inbound(
             $date, 
             $cartridge_type, 
             $cyan_qty, 
@@ -269,20 +240,31 @@ require_once "./control/transaction.ctrl.php";
             $black_qty
         );
 
-        echo $inbound->setTransaction();
+        $inbound->setInbound();
+    }
 
-        // echo <<<_TRANSACTION
-        //     <ul>
-        //         <li>$date</li>
-        //         <li>$movement_type</li>
-        //         <li>$printer_model</li>
-        //         <li>$cartridge_type</li>
-        //         <li>$cyan_qty</li>
-        //         <li>$magenta_qty</li>
-        //         <li>$yellow_qty</li>
-        //         <li>$black_qty</li>
-        //     </ul>
-        // _TRANSACTION;
+    if(isset($_POST['TonerDistribution'])){
+        $date = $_POST['date'];
+        $destination = $_POST['destination'];
+        $cartridgeType = $_POST['cartridge_type'];
+        $cyan_qty = $_POST['cyan_qty'];
+        $magenta_qty = $_POST['magenta_qty'];
+        $yellow_qty = $_POST['yellow_qty'];
+        $black_qty = $_POST['black_qty'];
+        $requester = $_POST['requester'];
+
+        $outbound = new Outbound(
+            $date, 
+            $destination,
+            $cartridgeType, 
+            $cyan_qty, 
+            $magenta_qty,
+            $yellow_qty,
+            $black_qty,
+            $requester
+        );
+
+        echo $outbound->setOutbound();
     }
 ?>
 <?php require_once "./includes/footer.inc.php"; ?>
