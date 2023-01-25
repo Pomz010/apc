@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2023 at 10:03 AM
+-- Generation Time: Jan 25, 2023 at 04:13 PM
 -- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,7 +44,7 @@ CREATE TABLE `current_stock` (
 --
 
 CREATE TABLE `department` (
-  `dept_id` int(10) UNSIGNED NOT NULL,
+  `dept_id` int(11) NOT NULL,
   `department_name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -148,10 +148,10 @@ CREATE TABLE `outbound` (
 --
 
 INSERT INTO `outbound` (`transaction_id`, `date`, `destination`, `printer_id`, `cyan`, `magenta`, `yellow`, `black`, `employee_no`) VALUES
-(1, '2023-01-09', 'inbound', 0, 3, 3, 3, 3, 0),
-(3, '2023-01-09', 'inbound', 0, 3, 3, 3, 3, 0),
-(4, '2023-01-09', 'inbound', 0, 3, 3, 3, 3, 0),
-(5, '0000-00-00', 'HP M280NW', 0, 5, 3, 3, 3, 0);
+(1, '2023-01-09', 'inbound', 1, 3, 3, 3, 3, 3),
+(3, '2023-01-09', 'inbound', 2, 3, 3, 3, 3, 2),
+(4, '2023-01-09', 'inbound', 1, 3, 3, 3, 3, 1),
+(5, '0000-00-00', 'HP M280NW', 1, 5, 3, 3, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -200,8 +200,8 @@ CREATE TABLE `replenishment` (
 --
 
 INSERT INTO `replenishment` (`id`, `printer_id`, `date`, `cyan`, `magenta`, `yellow`, `black`) VALUES
-(1, 0, '2023-01-09', 3, 3, 3, 3),
-(2, 0, '2023-01-09', 3, 3, 3, 3);
+(1, 1, '2023-01-09', 3, 3, 3, 3),
+(2, 1, '2023-01-09', 3, 3, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -232,7 +232,9 @@ INSERT INTO `toner_color` (`toner_id`, `color`) VALUES
 -- Indexes for table `current_stock`
 --
 ALTER TABLE `current_stock`
-  ADD PRIMARY KEY (`stock_id`);
+  ADD PRIMARY KEY (`stock_id`),
+  ADD KEY `dept_id` (`dept_id`),
+  ADD KEY `printer_id` (`printer_id`);
 
 --
 -- Indexes for table `department`
@@ -244,14 +246,17 @@ ALTER TABLE `department`
 -- Indexes for table `employee_list`
 --
 ALTER TABLE `employee_list`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Indexes for table `outbound`
 --
 ALTER TABLE `outbound`
   ADD PRIMARY KEY (`transaction_id`),
-  ADD KEY `printer_id` (`printer_id`,`employee_no`);
+  ADD KEY `printer_id` (`printer_id`,`employee_no`),
+  ADD KEY `printer_id_2` (`printer_id`),
+  ADD KEY `employee_no` (`employee_no`);
 
 --
 -- Indexes for table `printer`
@@ -263,7 +268,8 @@ ALTER TABLE `printer`
 -- Indexes for table `replenishment`
 --
 ALTER TABLE `replenishment`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `printer_id` (`printer_id`);
 
 --
 -- Indexes for table `toner_color`
@@ -285,7 +291,7 @@ ALTER TABLE `current_stock`
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `dept_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `employee_list`
@@ -316,6 +322,30 @@ ALTER TABLE `replenishment`
 --
 ALTER TABLE `toner_color`
   MODIFY `toner_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `current_stock`
+--
+ALTER TABLE `current_stock`
+  ADD CONSTRAINT `current_stock_ibfk_1` FOREIGN KEY (`printer_id`) REFERENCES `printer` (`printer_id`),
+  ADD CONSTRAINT `current_stock_ibfk_2` FOREIGN KEY (`dept_id`) REFERENCES `department` (`dept_id`);
+
+--
+-- Constraints for table `outbound`
+--
+ALTER TABLE `outbound`
+  ADD CONSTRAINT `outbound_ibfk_1` FOREIGN KEY (`printer_id`) REFERENCES `printer` (`printer_id`),
+  ADD CONSTRAINT `outbound_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employee_list` (`id`);
+
+--
+-- Constraints for table `replenishment`
+--
+ALTER TABLE `replenishment`
+  ADD CONSTRAINT `replenishment_ibfk_1` FOREIGN KEY (`printer_id`) REFERENCES `printer` (`printer_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
