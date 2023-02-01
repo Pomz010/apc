@@ -1,40 +1,48 @@
 <?php
 
-require_once "./model/query.mdl.php";
+require_once "./model/tonerTransaction.mdl.php";
     class Transaction {
         private string $date;
         private string $cartridgeType;
+        private string $blackQty;
         private string $cyanQty;
         private string $magentaQty;
         private string $yellowQty;
-        private string $blackQty;
+        private string $employeeId;
+        private string $transactionType;
 
         public function __construct(
             $date, 
             $cartridgeType, 
+            $blackQty,
             $cyanQty, 
             $magentaQty, 
             $yellowQty, 
-            $blackQty
+            $employeeId,
+            $transactionType
         ) {
             $this->date = $date;
             $this->cartridgeType = $cartridgeType;
+            $this->blackQty = $blackQty;
             $this->cyanQty = $cyanQty;
             $this->magentaQty = $magentaQty;
             $this->yellowQty = $yellowQty;
-            $this->blackQty = $blackQty;
+            $this->employeeId = $employeeId;
+            $this->transactionType = $transactionType;
         }
 
         public function setTransaction() {
-            $inbound = new Replenishment(
+            $tonerEntry = new TonerEntry(
                 $this->date,
                 $this->cartridgeType,
+                $this->blackQty,
                 $this->cyanQty,
                 $this->magentaQty,
                 $this->yellowQty,
-                $this->blackQty
+                $this->employeeId,
+                $this->transactionType
             );
 
-            return $inbound->setReplenishment();
+            return $tonerEntry->setTonerEntry();
         }
     }

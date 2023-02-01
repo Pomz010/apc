@@ -1,7 +1,7 @@
 <?php
 include "./includes/autoload.inc.php";
 require_once "./includes/header.inc.php";
-require_once "./control/inbound.ctrl.php";
+require_once "./control/transaction.ctrl.php";
 require_once "./control/outbound.ctrl.php";
 ?>
 
@@ -17,8 +17,7 @@ require_once "./control/outbound.ctrl.php";
                 <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Toner Monitoring</a>
                 <ul class="dropdown-menu dropdown-menu-dark">
                     <!-- Modal Button -->
-                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#tonerInbound">Replenishment</a></li>
-                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#tonerOutbound">Outbound</a></li>
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#tonerInbound">New Transaction</a></li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -32,16 +31,27 @@ require_once "./control/outbound.ctrl.php";
     </div>
 </nav>
 
-<!-- Inbound Modal Form -->
-<div class="modal fade" id="tonerInbound" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- New Transaction Modal Form -->
+<div class="modal fade fs-5" id="tonerInbound" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Replenishment</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">New Transaction</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-5">
                 <form class="mt-3" action="<?php $_SERVER["PHP_SELF"]; ?>" method="POST">
+
+                    <div class="mb-2 d-flex justify-content-between">
+                        <div>
+                            <label class="me-5" for="inbound">Inbound:</label>
+                            <input type="radio" id="inbound" name="transactionType" value="1">
+                        </div>
+                        <div>
+                            <label class="me-5" for="outbound">Outbound:</label>
+                            <input type="radio" id="outbound" name="transactionType" value="2">
+                        </div>
+                    </div>
 
                     <div class="mb-2 d-flex justify-content-between">
                         <label for="date">Date:</label>
@@ -51,12 +61,17 @@ require_once "./control/outbound.ctrl.php";
                     <div class="mb-2 d-flex justify-content-between">
                         <label for="cartridge">Cartridge Type: </label>
                         <select class="w-50" name="cartridge_type" id="cartridge_type">
-                            <option value="CF500A Series">CF500A Series</option>
-                            <option value="CANON 337">CANON 337</option>
-                            <option value="CF400A Series">CF400A Series</option>
-                            <option value="CE285A">CE285A</option>
-                            <option value="HP 130FN">CF217A</option>
+                            <option value="1">CF500A Series</option>
+                            <option value="2">CANON 337</option>
+                            <option value="3">CF400A Series</option>
+                            <option value="4">CE285A</option>
+                            <option value="5">CF217A</option>
                         </select>
+                    </div>
+
+                    <div class="mb-2 d-flex justify-content-between">
+                        <label for="black">Black: </label>
+                        <input class="w-50" type="number" id="black" name="black_qty">
                     </div>
 
                     <div class="mb-2 d-flex justify-content-between">
@@ -75,92 +90,13 @@ require_once "./control/outbound.ctrl.php";
                     </div>
 
                     <div class="mb-2 d-flex justify-content-between">
-                        <label for="black">Black: </label>
-                        <input class="w-50" type="number" id="black" name="black_qty">
+                        <label for="employeeId">C/O: </label>
+                        <input class="w-50" type="number" id="employeeId" name="employeeId">
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" name="replenish" class="btn btn-primary">SUBMIT</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Outbound Modal Form -->
-<div class="modal fade" id="tonerOutbound" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Outbound</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body px-5">
-                <form class="mt-3" action="<?php $_SERVER["PHP_SELF"]; ?>" method="POST">
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="date">Date:</label>
-                        <input class="w-50" type="date" id="date" name="date">
-                    </div>
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="printer_model">Destination: </label>
-                        <select class="w-50" name="destination" id="destination">
-                            <option value="HP M280NW">HP M280NW</option>
-                            <option value="CANON MF244">CANON MF244</option>
-                            <option value="HP M274N">HP M274N</option>
-                            <option value="HP M15A">HP M15A</option>
-                            <option value="HP 130FN">HP 130FN</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="cartridge">Cartridge Type: </label>
-                        <select class="w-50" name="cartridge_type" id="cartridge_type">
-                            <option value="CF500A Series">CF500A Series</option>
-                            <option value="CANON 337">CANON 337</option>
-                            <option value="CF400A Series">CF400A Series</option>
-                            <option value="CE285A">CE285A</option>
-                            <option value="HP 130FN">CF217A</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="cyan">Cyan: </label>
-                        <input class="w-50" type="number" id="Cyan" name="cyan_qty">
-                    </div>
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="magenta">Magenta: </label>
-                        <input class="w-50" type="number" id="magenta" name="magenta_qty">
-                    </div>
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="yellow">Yellow: </label>
-                        <input class="w-50" type="number" id="yellow" name="yellow_qty">
-                    </div>
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="black">Black: </label>
-                        <input class="w-50" type="number" id="black" name="black_qty">
-                    </div>
-
-                    <div class="mb-2 d-flex justify-content-between">
-                        <label for="printer_model">Requester: </label>
-                        <select class="w-50" name="requester" id="requester">
-                            <option value="HP M280NW">HP M280NW</option>
-                            <option value="CANON MF244">CANON MF244</option>
-                            <option value="HP M274N">HP M274N</option>
-                            <option value="HP M15A">HP M15A</option>
-                            <option value="HP 130FN">HP 130FN</option>
-                        </select>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" name="TonerDistribution" class="btn btn-primary">SUBMIT</button>
+                        <button type="submit" name="submit" class="btn btn-primary">SUBMIT</button>
                     </div>
                 </form>
             </div>
@@ -223,48 +159,61 @@ require_once "./control/outbound.ctrl.php";
 
 <?php
 // User input submitted to create data
-    if(isset($_POST['replenish'])) {
+    if(isset($_POST['submit'])) {
         $date = $_POST['date'];
         $cartridge_type = $_POST['cartridge_type'];
+        $black_qty = $_POST['black_qty'];
         $cyan_qty = $_POST['cyan_qty'];
         $magenta_qty = $_POST['magenta_qty'];
         $yellow_qty = $_POST['yellow_qty'];
-        $black_qty = $_POST['black_qty'];
+        $empolyeeId = $_POST['employeeId'];
+        $transcationType = $_POST['transactionType'];
 
-        $inbound = new Inbound(
+        $transaction = new Transaction(
             $date, 
             $cartridge_type, 
-            $cyan_qty, 
-            $magenta_qty,
-            $yellow_qty,
-            $black_qty
-        );
-
-        $inbound->setInbound();
-    }
-
-    if(isset($_POST['TonerDistribution'])){
-        $date = $_POST['date'];
-        $destination = $_POST['destination'];
-        $cartridgeType = $_POST['cartridge_type'];
-        $cyan_qty = $_POST['cyan_qty'];
-        $magenta_qty = $_POST['magenta_qty'];
-        $yellow_qty = $_POST['yellow_qty'];
-        $black_qty = $_POST['black_qty'];
-        $requester = $_POST['requester'];
-
-        $outbound = new Outbound(
-            $date, 
-            $destination,
-            $cartridgeType, 
-            $cyan_qty, 
-            $magenta_qty,
-            $yellow_qty,
             $black_qty,
-            $requester
+            $cyan_qty, 
+            $magenta_qty,
+            $yellow_qty,
+            $empolyeeId,
+            $transcationType
         );
 
-        echo $outbound->setOutbound();
+        // $transaction->setTransaction();
+
+        echo "$date<br />
+         $cartridge_type<br />
+         $black_qty<br />
+         $cyan_qty<br /
+         $magenta_qty<br />
+         $yellow_qty<br />
+         $empolyeeId<br />
+         $transcationType<br />";
     }
+
+    // if(isset($_POST['TonerDistribution'])){
+    //     $date = $_POST['date'];
+    //     $destination = $_POST['destination'];
+    //     $cartridgeType = $_POST['cartridge_type'];
+    //     $cyan_qty = $_POST['cyan_qty'];
+    //     $magenta_qty = $_POST['magenta_qty'];
+    //     $yellow_qty = $_POST['yellow_qty'];
+    //     $black_qty = $_POST['black_qty'];
+    //     $requester = $_POST['requester'];
+
+    //     $outbound = new Outbound(
+    //         $date, 
+    //         $destination,
+    //         $cartridgeType, 
+    //         $cyan_qty, 
+    //         $magenta_qty,
+    //         $yellow_qty,
+    //         $black_qty,
+    //         $requester
+    //     );
+
+    //     echo $outbound->setOutbound();
+    // }
 ?>
 <?php require_once "./includes/footer.inc.php"; ?>
