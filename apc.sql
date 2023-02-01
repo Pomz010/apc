@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 27, 2023 at 10:57 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Generation Time: Feb 01, 2023 at 05:02 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,27 +24,13 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `current_stock`
---
-
-CREATE TABLE `current_stock` (
-  `stock_id` int(11) NOT NULL,
-  `dept_id` int(11) NOT NULL,
-  `printer_id` int(11) NOT NULL,
-  `inbound_id` int(11) NOT NULL,
-  `outbound_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `department`
 --
 
 CREATE TABLE `department` (
   `dept_id` int(11) NOT NULL,
   `department_name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `department`
@@ -84,7 +70,7 @@ CREATE TABLE `employee_list` (
   `name_ext` varchar(10) DEFAULT NULL,
   `gender` varchar(6) NOT NULL,
   `position` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employee_list`
@@ -127,39 +113,13 @@ INSERT INTO `employee_list` (`id`, `employee_id`, `dept_id`, `first_name`, `last
 -- --------------------------------------------------------
 
 --
--- Table structure for table `inbound`
---
-
-CREATE TABLE `inbound` (
-  `inbound_id` int(11) NOT NULL,
-  `printer_id` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `cyan` int(11) NOT NULL,
-  `magenta` int(11) NOT NULL,
-  `yellow` int(11) NOT NULL,
-  `black` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `inbound`
---
-
-INSERT INTO `inbound` (`inbound_id`, `printer_id`, `date`, `cyan`, `magenta`, `yellow`, `black`) VALUES
-(1, 1, '2023-01-09', 3, 3, 3, 3),
-(2, 1, '2023-01-09', 3, 3, 3, 3),
-(3, 3, '2023-01-27', 4, 5, 5, 5),
-(4, 3, '2023-01-27', 4, 4, 4, 4);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `movement_type`
 --
 
 CREATE TABLE `movement_type` (
   `movement_id` int(11) NOT NULL,
   `movement_type` varchar(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `movement_type`
@@ -168,34 +128,6 @@ CREATE TABLE `movement_type` (
 INSERT INTO `movement_type` (`movement_id`, `movement_type`) VALUES
 (1, 'inbound'),
 (2, 'outbound');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `outbound`
---
-
-CREATE TABLE `outbound` (
-  `outbound_id` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `dept_id` int(11) NOT NULL,
-  `printer_id` int(11) NOT NULL,
-  `cyan` int(11) NOT NULL,
-  `magenta` int(11) NOT NULL,
-  `yellow` int(11) NOT NULL,
-  `black` int(11) NOT NULL,
-  `employee_no` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `outbound`
---
-
-INSERT INTO `outbound` (`outbound_id`, `date`, `dept_id`, `printer_id`, `cyan`, `magenta`, `yellow`, `black`, `employee_no`) VALUES
-(1, '2023-01-09', 2, 1, 3, 3, 3, 3, 3),
-(3, '2023-01-09', 5, 2, 3, 3, 3, 3, 2),
-(4, '2023-01-09', 3, 1, 3, 3, 3, 3, 1),
-(5, '0000-00-00', 1, 1, 5, 3, 3, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -210,7 +142,7 @@ CREATE TABLE `printer` (
   `printer_type` enum('colored','black&white') NOT NULL,
   `serial_number` varchar(50) NOT NULL,
   `cartridge_type` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `printer`
@@ -226,39 +158,13 @@ INSERT INTO `printer` (`printer_id`, `brand`, `model`, `printer_type`, `serial_n
 -- --------------------------------------------------------
 
 --
--- Table structure for table `test_balance`
---
-
-CREATE TABLE `test_balance` (
-  `id` int(11) NOT NULL,
-  `inbound_id` int(11) NOT NULL,
-  `outbound_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `test_balance`
---
-
-INSERT INTO `test_balance` (`id`, `inbound_id`, `outbound_id`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 1, 4),
-(4, 2, 4),
-(5, 1, 5),
-(6, 2, 5),
-(7, 1, 3),
-(8, 2, 3);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `toner_color`
 --
 
 CREATE TABLE `toner_color` (
   `toner_id` int(11) NOT NULL,
   `color` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `toner_color`
@@ -269,29 +175,6 @@ INSERT INTO `toner_color` (`toner_id`, `color`) VALUES
 (2, 'magenta'),
 (3, 'yellow'),
 (4, 'black');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `total_inbound`
---
-
-CREATE TABLE `total_inbound` (
-  `total_in_id` int(11) NOT NULL,
-  `inbound_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `total_inbound`
---
-
-INSERT INTO `total_inbound` (`total_in_id`, `inbound_id`) VALUES
-(1, 1),
-(4, 1),
-(2, 2),
-(5, 2),
-(6, 3),
-(7, 4);
 
 -- --------------------------------------------------------
 
@@ -309,7 +192,7 @@ CREATE TABLE `transaction` (
   `yellow` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `movement_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `transaction`
@@ -317,21 +200,22 @@ CREATE TABLE `transaction` (
 
 INSERT INTO `transaction` (`transaction_id`, `date`, `printer_id`, `black`, `cyan`, `magenta`, `yellow`, `employee_id`, `movement_id`) VALUES
 (1, '2023-01-27', 3, 5, 3, 3, 3, 3, 1),
-(2, '2023-01-27', 3, 1, 1, 1, 1, 25, 2);
+(2, '2023-01-27', 3, -1, -1, -1, -1, 25, 2),
+(3, '2023-01-27', 1, 5, 3, 3, 3, 3, 1),
+(4, '2023-01-27', 1, -1, -1, -1, -1, 7, 2),
+(5, '2023-01-27', 5, 5, 0, 0, 0, 3, 1),
+(6, '2023-01-27', 5, -1, 0, 0, 0, 18, 2),
+(7, '2023-01-27', 3, 3, 2, 2, 2, 3, 1),
+(8, '2023-01-27', 1, 3, 2, 2, 2, 3, 1),
+(9, '2023-01-27', 2, 7, 0, 0, 0, 3, 1),
+(10, '2023-01-27', 2, -1, 0, 0, 0, 19, 2),
+(11, '2023-01-27', 3, -1, -1, 0, -1, 25, 2),
+(12, '2023-01-27', 2, -1, 0, 0, 0, 19, 2),
+(13, '2023-01-27', 1, -1, 0, -1, -1, 13, 2);
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `current_stock`
---
-ALTER TABLE `current_stock`
-  ADD PRIMARY KEY (`stock_id`),
-  ADD KEY `dept_id` (`dept_id`),
-  ADD KEY `printer_id` (`printer_id`),
-  ADD KEY `inbound_id` (`inbound_id`),
-  ADD KEY `outbound_id` (`outbound_id`);
 
 --
 -- Indexes for table `department`
@@ -348,27 +232,10 @@ ALTER TABLE `employee_list`
   ADD KEY `employee_id` (`employee_id`);
 
 --
--- Indexes for table `inbound`
---
-ALTER TABLE `inbound`
-  ADD PRIMARY KEY (`inbound_id`),
-  ADD KEY `printer_id` (`printer_id`);
-
---
 -- Indexes for table `movement_type`
 --
 ALTER TABLE `movement_type`
   ADD PRIMARY KEY (`movement_id`);
-
---
--- Indexes for table `outbound`
---
-ALTER TABLE `outbound`
-  ADD PRIMARY KEY (`outbound_id`),
-  ADD KEY `printer_id` (`printer_id`,`employee_no`),
-  ADD KEY `printer_id_2` (`printer_id`),
-  ADD KEY `employee_no` (`employee_no`),
-  ADD KEY `dept_id` (`dept_id`);
 
 --
 -- Indexes for table `printer`
@@ -377,25 +244,10 @@ ALTER TABLE `printer`
   ADD PRIMARY KEY (`printer_id`);
 
 --
--- Indexes for table `test_balance`
---
-ALTER TABLE `test_balance`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `inbound_id` (`inbound_id`),
-  ADD KEY `outbound_id` (`outbound_id`);
-
---
 -- Indexes for table `toner_color`
 --
 ALTER TABLE `toner_color`
   ADD PRIMARY KEY (`toner_id`);
-
---
--- Indexes for table `total_inbound`
---
-ALTER TABLE `total_inbound`
-  ADD PRIMARY KEY (`total_in_id`),
-  ADD KEY `inbound_id` (`inbound_id`);
 
 --
 -- Indexes for table `transaction`
@@ -403,17 +255,12 @@ ALTER TABLE `total_inbound`
 ALTER TABLE `transaction`
   ADD PRIMARY KEY (`transaction_id`),
   ADD KEY `employee_id` (`employee_id`),
-  ADD KEY `printer_id` (`printer_id`);
+  ADD KEY `printer_id` (`printer_id`),
+  ADD KEY `movement_id` (`movement_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `current_stock`
---
-ALTER TABLE `current_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `department`
@@ -428,22 +275,10 @@ ALTER TABLE `employee_list`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT for table `inbound`
---
-ALTER TABLE `inbound`
-  MODIFY `inbound_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT for table `movement_type`
 --
 ALTER TABLE `movement_type`
   MODIFY `movement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `outbound`
---
-ALTER TABLE `outbound`
-  MODIFY `outbound_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `printer`
@@ -452,39 +287,20 @@ ALTER TABLE `printer`
   MODIFY `printer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `test_balance`
---
-ALTER TABLE `test_balance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
 -- AUTO_INCREMENT for table `toner_color`
 --
 ALTER TABLE `toner_color`
   MODIFY `toner_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `total_inbound`
---
-ALTER TABLE `total_inbound`
-  MODIFY `total_in_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `current_stock`
---
-ALTER TABLE `current_stock`
-  ADD CONSTRAINT `current_stock_ibfk_1` FOREIGN KEY (`printer_id`) REFERENCES `printer` (`printer_id`),
-  ADD CONSTRAINT `current_stock_ibfk_2` FOREIGN KEY (`dept_id`) REFERENCES `department` (`dept_id`);
 
 --
 -- Constraints for table `employee_list`
@@ -493,38 +309,12 @@ ALTER TABLE `employee_list`
   ADD CONSTRAINT `employee_list_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `department` (`dept_id`);
 
 --
--- Constraints for table `inbound`
---
-ALTER TABLE `inbound`
-  ADD CONSTRAINT `inbound_ibfk_1` FOREIGN KEY (`printer_id`) REFERENCES `printer` (`printer_id`);
-
---
--- Constraints for table `outbound`
---
-ALTER TABLE `outbound`
-  ADD CONSTRAINT `outbound_ibfk_1` FOREIGN KEY (`printer_id`) REFERENCES `printer` (`printer_id`),
-  ADD CONSTRAINT `outbound_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employee_list` (`id`),
-  ADD CONSTRAINT `outbound_ibfk_3` FOREIGN KEY (`dept_id`) REFERENCES `department` (`dept_id`);
-
---
--- Constraints for table `test_balance`
---
-ALTER TABLE `test_balance`
-  ADD CONSTRAINT `test_balance_ibfk_1` FOREIGN KEY (`inbound_id`) REFERENCES `inbound` (`inbound_id`),
-  ADD CONSTRAINT `test_balance_ibfk_2` FOREIGN KEY (`outbound_id`) REFERENCES `outbound` (`outbound_id`);
-
---
--- Constraints for table `total_inbound`
---
-ALTER TABLE `total_inbound`
-  ADD CONSTRAINT `total_inbound_ibfk_1` FOREIGN KEY (`inbound_id`) REFERENCES `inbound` (`inbound_id`);
-
---
 -- Constraints for table `transaction`
 --
 ALTER TABLE `transaction`
   ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee_list` (`id`),
-  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`printer_id`) REFERENCES `printer` (`printer_id`);
+  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`printer_id`) REFERENCES `printer` (`printer_id`),
+  ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`movement_id`) REFERENCES `movement_type` (`movement_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
