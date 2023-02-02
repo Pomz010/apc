@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 01, 2023 at 05:02 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Feb 02, 2023 at 10:41 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `department` (
   `dept_id` int(11) NOT NULL,
   `department_name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `department`
@@ -70,7 +70,7 @@ CREATE TABLE `employee_list` (
   `name_ext` varchar(10) DEFAULT NULL,
   `gender` varchar(6) NOT NULL,
   `position` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `employee_list`
@@ -119,7 +119,7 @@ INSERT INTO `employee_list` (`id`, `employee_id`, `dept_id`, `first_name`, `last
 CREATE TABLE `movement_type` (
   `movement_id` int(11) NOT NULL,
   `movement_type` varchar(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `movement_type`
@@ -142,7 +142,7 @@ CREATE TABLE `printer` (
   `printer_type` enum('colored','black&white') NOT NULL,
   `serial_number` varchar(50) NOT NULL,
   `cartridge_type` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `printer`
@@ -164,7 +164,7 @@ INSERT INTO `printer` (`printer_id`, `brand`, `model`, `printer_type`, `serial_n
 CREATE TABLE `toner_color` (
   `toner_id` int(11) NOT NULL,
   `color` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `toner_color`
@@ -192,7 +192,7 @@ CREATE TABLE `transaction` (
   `yellow` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `movement_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transaction`
@@ -211,7 +211,10 @@ INSERT INTO `transaction` (`transaction_id`, `date`, `printer_id`, `black`, `cya
 (10, '2023-01-27', 2, -1, 0, 0, 0, 19, 2),
 (11, '2023-01-27', 3, -1, -1, 0, -1, 25, 2),
 (12, '2023-01-27', 2, -1, 0, 0, 0, 19, 2),
-(13, '2023-01-27', 1, -1, 0, -1, -1, 13, 2);
+(13, '2023-01-27', 1, -1, 0, -1, -1, 13, 2),
+(14, '2023-02-02', 3, 5, 2, 2, 2, 25, 1),
+(15, '2023-02-02', 3, -1, -1, -1, -1, 25, 2),
+(16, '2023-02-02', 3, 1, 1, 1, 1, 25, 1);
 
 --
 -- Indexes for dumped tables
@@ -296,7 +299,7 @@ ALTER TABLE `toner_color`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
