@@ -32,7 +32,7 @@ class TonerEntry {
 
     public function setTonerEntry() {
         require_once 'pdo-connect.php';
-        $sql = "INSERT INTO `transaction` (date, cartridge_model, black, cyan, magenta, yellow, employee_id, movement_id) 
+        $sql = "INSERT INTO transaction (`date`, printer_id, black, cyan, magenta, yellow, employee_id, movement_id) 
                VALUES (
                    '{$this->date}', 
                    '{$this->cartridgeType}', 

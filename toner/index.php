@@ -160,14 +160,23 @@ require_once "./control/outbound.ctrl.php";
 <?php
 // User input submitted to create data
     if(isset($_POST['submit'])) {
+
+        if($_POST['transactionType'] != '1') {
+            $black_qty = $_POST['black_qty'] * -1;
+            $cyan_qty = $_POST['cyan_qty'] * -1;
+            $magenta_qty = $_POST['magenta_qty'] * -1;
+            $yellow_qty = $_POST['yellow_qty'] * -1;
+        } else {
+            $black_qty = $_POST['black_qty'];
+            $cyan_qty = $_POST['cyan_qty'];
+            $magenta_qty = $_POST['magenta_qty'];
+            $yellow_qty = $_POST['yellow_qty'];
+        }
+
         $date = $_POST['date'];
         $cartridge_type = $_POST['cartridge_type'];
-        $black_qty = $_POST['black_qty'];
-        $cyan_qty = $_POST['cyan_qty'];
-        $magenta_qty = $_POST['magenta_qty'];
-        $yellow_qty = $_POST['yellow_qty'];
-        $empolyeeId = $_POST['employeeId'];
-        $transcationType = $_POST['transactionType'];
+        $employeeId = $_POST['employeeId'];
+        $transactionType = $_POST['transactionType'];
 
         $transaction = new Transaction(
             $date, 
@@ -176,21 +185,21 @@ require_once "./control/outbound.ctrl.php";
             $cyan_qty, 
             $magenta_qty,
             $yellow_qty,
-            $empolyeeId,
-            $transcationType
+            $employeeId,
+            $transactionType
         );
 
-        // $transaction->setTransaction();
+       echo $transaction->setTransaction();
 
-        echo "$date<br />
-         $cartridge_type<br />
-         $black_qty<br />
-         $cyan_qty<br /
-         $magenta_qty<br />
-         $yellow_qty<br />
-         $empolyeeId<br />
-         $transcationType<br />";
-    }
+    //     echo "$date<br />
+    //      $cartridge_type<br />
+    //      $black_qty<br />
+    //      $cyan_qty<br /
+    //      $magenta_qty<br />
+    //      $yellow_qty<br />
+    //      $empolyeeId<br />
+    //      $transcationType<br />";
+    // }
 
     // if(isset($_POST['TonerDistribution'])){
     //     $date = $_POST['date'];
@@ -214,6 +223,6 @@ require_once "./control/outbound.ctrl.php";
     //     );
 
     //     echo $outbound->setOutbound();
-    // }
+    }
 ?>
 <?php require_once "./includes/footer.inc.php"; ?>
