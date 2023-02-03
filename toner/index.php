@@ -2,7 +2,6 @@
 include "./includes/autoload.inc.php";
 require_once "./includes/header.inc.php";
 require_once "./control/transaction.ctrl.php";
-require_once "./control/outbound.ctrl.php";
 ?>
 
 <!-- Header Nav -->
@@ -110,7 +109,6 @@ require_once "./control/outbound.ctrl.php";
             <caption class="h1">Toner Current Stock</caption>
         <thead class="table-success">
         <tr>
-            <th>Department</th>
             <th>Printer Model</th>
             <th>Printer Type</th>
             <th>Cartridge Type</th>
@@ -122,7 +120,6 @@ require_once "./control/outbound.ctrl.php";
         </thead>
         <tbody>
         <tr>
-            <td>John</td>
             <td>Doe</td>
             <td>john@example.com</td>
             <td>John</td>
@@ -132,7 +129,6 @@ require_once "./control/outbound.ctrl.php";
             <td>john@example.com</td>
         </tr>
         <tr>
-        <td>John</td>
             <td>Doe</td>
             <td>john@example.com</td>
             <td>John</td>
@@ -142,7 +138,6 @@ require_once "./control/outbound.ctrl.php";
             <td>john@example.com</td>
         </tr>
         <tr>
-            <td>John</td>
             <td>Doe</td>
             <td>john@example.com</td>
             <td>John</td>
@@ -160,21 +155,12 @@ require_once "./control/outbound.ctrl.php";
 <?php
 // User input submitted to create data
     if(isset($_POST['submit'])) {
-
-        if($_POST['transactionType'] != '1') {
-            $black_qty = $_POST['black_qty'] * -1;
-            $cyan_qty = $_POST['cyan_qty'] * -1;
-            $magenta_qty = $_POST['magenta_qty'] * -1;
-            $yellow_qty = $_POST['yellow_qty'] * -1;
-        } else {
-            $black_qty = $_POST['black_qty'];
-            $cyan_qty = $_POST['cyan_qty'];
-            $magenta_qty = $_POST['magenta_qty'];
-            $yellow_qty = $_POST['yellow_qty'];
-        }
-
         $date = $_POST['date'];
         $cartridge_type = $_POST['cartridge_type'];
+        $black_qty = $_POST['black_qty'];
+        $cyan_qty = $_POST['cyan_qty'];
+        $magenta_qty = $_POST['magenta_qty'];
+        $yellow_qty = $_POST['yellow_qty'];
         $employeeId = $_POST['employeeId'];
         $transactionType = $_POST['transactionType'];
 
@@ -189,40 +175,7 @@ require_once "./control/outbound.ctrl.php";
             $transactionType
         );
 
-       echo $transaction->setTransaction();
-
-    //     echo "$date<br />
-    //      $cartridge_type<br />
-    //      $black_qty<br />
-    //      $cyan_qty<br /
-    //      $magenta_qty<br />
-    //      $yellow_qty<br />
-    //      $empolyeeId<br />
-    //      $transcationType<br />";
-    // }
-
-    // if(isset($_POST['TonerDistribution'])){
-    //     $date = $_POST['date'];
-    //     $destination = $_POST['destination'];
-    //     $cartridgeType = $_POST['cartridge_type'];
-    //     $cyan_qty = $_POST['cyan_qty'];
-    //     $magenta_qty = $_POST['magenta_qty'];
-    //     $yellow_qty = $_POST['yellow_qty'];
-    //     $black_qty = $_POST['black_qty'];
-    //     $requester = $_POST['requester'];
-
-    //     $outbound = new Outbound(
-    //         $date, 
-    //         $destination,
-    //         $cartridgeType, 
-    //         $cyan_qty, 
-    //         $magenta_qty,
-    //         $yellow_qty,
-    //         $black_qty,
-    //         $requester
-    //     );
-
-    //     echo $outbound->setOutbound();
+       $transaction->setTransaction();
     }
 ?>
 <?php require_once "./includes/footer.inc.php"; ?>

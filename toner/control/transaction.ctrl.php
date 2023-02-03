@@ -4,10 +4,10 @@ require_once "./model/tonerTransaction.mdl.php";
     class Transaction {
         private string $date;
         private string $cartridgeType;
-        private string $blackQty;
-        private string $cyanQty;
-        private string $magentaQty;
-        private string $yellowQty;
+        private int $blackQty;
+        private int $cyanQty;
+        private int $magentaQty;
+        private int $yellowQty;
         private string $employeeId;
         private string $transactionType;
 
@@ -32,6 +32,14 @@ require_once "./model/tonerTransaction.mdl.php";
         }
 
         public function setTransaction() {
+            // Converts positive numbers if transaction type is equal to outbound
+            if($this->transactionType != '1') {
+                $this->blackQty *= -1;
+                $this->cyanQty *= -1;
+                $this->magentaQty *= -1;
+                $this->yellowQty *= -1;
+            } 
+
             $tonerEntry = new TonerEntry(
                 $this->date,
                 $this->cartridgeType,
