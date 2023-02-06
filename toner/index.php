@@ -2,6 +2,39 @@
 include "./includes/autoload.inc.php";
 require_once "./includes/header.inc.php";
 require_once "./control/transaction.ctrl.php";
+require_once "./control/tonerStock.ctrl.php";
+?>
+
+<?php
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // User input submitted to create data
+        if(isset($_POST['submit'])) {
+            $date = $_POST['date'];
+            $cartridge_type = $_POST['cartridge_type'];
+            $black_qty = $_POST['black_qty'];
+            $cyan_qty = $_POST['cyan_qty'];
+            $magenta_qty = $_POST['magenta_qty'];
+            $yellow_qty = $_POST['yellow_qty'];
+            $employeeId = $_POST['employeeId'];
+            $transactionType = $_POST['transactionType'];
+
+            $transaction = new Transaction(
+                $date, 
+                $cartridge_type, 
+                $black_qty,
+                $cyan_qty, 
+                $magenta_qty,
+                $yellow_qty,
+                $employeeId,
+                $transactionType
+            );
+
+        $transaction->setTransaction();
+        }
+        header('Location: ' . $_SERVER['REQUEST_URI']);
+        exit;
+    }
 ?>
 
 <!-- Header Nav -->
@@ -119,63 +152,29 @@ require_once "./control/transaction.ctrl.php";
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Doe</td>
-            <td>john@example.com</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-        </tr>
-        <tr>
-            <td>Doe</td>
-            <td>john@example.com</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-        </tr>
-        <tr>
-            <td>Doe</td>
-            <td>john@example.com</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-        </tr>
+        <?php
+
+            $displayToner = new tonerStockCtrl();
+            $rows = $displayToner->getStock();
+
+            foreach($rows  as $row) {
+                $table = <<<_TR
+                    <tr>
+                        <td>{$row['model']}</td>
+                        <td>{$row['printer_type']}</td>
+                        <td>{$row['cartridge_type']}</td>
+                        <td>{$row['SUM(black)']}</td>
+                        <td>{$row['SUM(cyan)']}</td>
+                        <td>{$row['SUM(magenta)']}</td>
+                        <td>{$row['SUM(yellow)']}</td>
+                    </tr>
+                _TR;
+                echo $table;
+            }
+        ;?>
         </tbody>
     </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
-<?php
-// User input submitted to create data
-    if(isset($_POST['submit'])) {
-        $date = $_POST['date'];
-        $cartridge_type = $_POST['cartridge_type'];
-        $black_qty = $_POST['black_qty'];
-        $cyan_qty = $_POST['cyan_qty'];
-        $magenta_qty = $_POST['magenta_qty'];
-        $yellow_qty = $_POST['yellow_qty'];
-        $employeeId = $_POST['employeeId'];
-        $transactionType = $_POST['transactionType'];
-
-        $transaction = new Transaction(
-            $date, 
-            $cartridge_type, 
-            $black_qty,
-            $cyan_qty, 
-            $magenta_qty,
-            $yellow_qty,
-            $employeeId,
-            $transactionType
-        );
-
-       $transaction->setTransaction();
-    }
-?>
 <?php require_once "./includes/footer.inc.php"; ?>

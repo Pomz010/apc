@@ -1,5 +1,4 @@
 <?php
-
 class TonerEntry {
     private string $date;
     private string $cartridgeType;
@@ -31,28 +30,26 @@ class TonerEntry {
     }
 
     public function setTonerEntry() {
-        require_once 'pdo-connect.php';
-        $sql = "INSERT INTO transaction (`date`, printer_id, black, cyan, magenta, yellow, employee_id, movement_id) 
-               VALUES (
-                   '{$this->date}', 
-                   '{$this->cartridgeType}', 
-                   '{$this->blackQty}', 
-                   '{$this->cyanQty}', 
-                   '{$this->magentaQty}', 
-                   '{$this->yellowQty}', 
-                   '{$this->employeeId}', 
-                   '{$this->transactionType}'
-                   )";
-
-        try {        
-            if ($pdo) {
-                $result = $pdo->exec($sql);
-                $statement = "Connected to the $db database successfully!";
-            }
+        try {   
+            require 'pdo-connect.php';
+            $sql = "INSERT INTO 
+                        transaction (`date`, printer_id, black, cyan, magenta, yellow, employee_id, movement_id) 
+                    VALUES (
+                        '{$this->date}', 
+                        '{$this->cartridgeType}', 
+                        '{$this->blackQty}', 
+                        '{$this->cyanQty}', 
+                        '{$this->magentaQty}', 
+                        '{$this->yellowQty}', 
+                        '{$this->employeeId}', 
+                        '{$this->transactionType}'
+                        )";     
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $result = $pdo->query($sql);
         } catch (PDOException $e) {
             $statement = $e->getMessage();
         }
 
-        return $result;
+        // return $result;
     }
 }
