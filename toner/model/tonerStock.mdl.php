@@ -21,7 +21,8 @@ class TonerStockMdl {
         try {      
             require 'pdo-connect.php';  
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $rows = $pdo->query($sql);
+            $rows = $pdo->prepare($sql);
+            $rows->execute();
         } catch (PDOException $e) {
             $statement = $e->getMessage();
         }

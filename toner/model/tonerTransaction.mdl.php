@@ -45,11 +45,10 @@ class TonerEntry {
                         '{$this->transactionType}'
                         )";     
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $result = $pdo->query($sql);
+            $result = $pdo->prepare($sql);
+            $result->prepare();
         } catch (PDOException $e) {
             $statement = $e->getMessage();
         }
-
-        // return $result;
     }
 }
