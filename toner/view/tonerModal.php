@@ -1,3 +1,6 @@
+<?php
+    require_once "./control/emp.php";
+?>
 <div class="modal fade fs-5" id="tonerInbound" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -57,18 +60,15 @@
 
                     <div class="mb-2 d-flex justify-content-between">
                         <label for="employeeId">C/O: </label>
-                        <select name="employeeId" id="employeeId">
+                        
                         <?php
-                            require_once "./control/employeeSelection.ctrl.php";
-                            $showList = new EmployeeList();
-                            $stmt = $showList->showList();
-                            
-                            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                echo `<option value="{$row['id']}">{$row['name']}</option>`;
+                            echo '<select class="w-50" name="employeeId" id="employeeId">';
+                            foreach($rows as $row){
+                                echo "<option value=\"{$row['id']}\"> {$row['name']} </option>";
                             }
+                            echo '</select>';
                         ?>
-                        </select>
-                        <!-- <input class="w-50" type="number" id="employeeId" name="employeeId"> -->
+                        
                     </div>
 
                     <div class="modal-footer">

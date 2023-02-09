@@ -46,7 +46,7 @@ class TonerEntry {
                         )";     
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $result = $pdo->prepare($sql);
-            $result->prepare();
+            $result->execute();
         } catch (PDOException $e) {
             $statement = $e->getMessage();
         }

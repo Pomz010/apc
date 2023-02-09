@@ -17,7 +17,7 @@ require_once "./view/resubmitPrevention.php";
 // Header Nav
 require_once "./view/headerNav.php";
 
-// New Transaction Modal Form -->
+// New Transaction Modal Form
 require_once "./view/tonerModal.php";
 
 // Current Stock Table
